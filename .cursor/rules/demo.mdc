@@ -1,0 +1,8 @@
+---
+description: wehn writing code never put demo data
+globs:
+alwaysApply: true
+---
+
+- Never ever put any demo data or any fallbacks unless explicitly asked for it. Remember, the user wants an honest reply for whatever he's doing.
+- This type of behavior is falsifying the results, which is really wrong, and we should not stand for it. So, do not put any demo data just like that unless asked to.

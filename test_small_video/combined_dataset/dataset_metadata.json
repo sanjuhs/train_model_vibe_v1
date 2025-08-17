@@ -1,0 +1,26 @@
+{
+  "num_videos": 1,
+  "video_sources": [
+    {
+      "directory": "video_00_ml_testing",
+      "num_sequences": 46
+    }
+  ],
+  "total_sequences": 46,
+  "dataset_shape": {
+    "audio_sequences": [
+      46,
+      24,
+      80
+    ],
+    "target_sequences": [
+      46,
+      24,
+      59
+    ],
+    "vad_sequences": [
+      46,
+      24
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "minimal_mse_fixed": {
+    "success": false,
+    "final_loss": 0.008728624787181616,
+    "description": "Minimal TCN + MSE (Fixed)",
+    "iterations": 800
+  },
+  "original_linear": {
+    "success": false,
+    "final_loss": 0.008603603346273303,
+    "description": "Original TCN - Linear Output",
+    "iterations": 800
+  },
+  "original_activated": {
+    "success": false,
+    "final_loss": 0.02901067351922393,
+    "description": "Original TCN + Activations",
+    "iterations": 800
+  },
+  "original_custom_loss": {
+    "success": false,
+    "final_loss": 0.014474094845354557,
+    "description": "Original TCN + Custom Loss",
+    "iterations": 800
+  }
+}

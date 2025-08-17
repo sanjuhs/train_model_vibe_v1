@@ -1,0 +1,167 @@
+{
+  "project_info": {
+    "name": "Audio-to-Blendshapes TCN Model",
+    "description": "Real-time temporal convolutional network for audio-driven facial animation",
+    "version": "1.0.0",
+    "created": "2024",
+    "framework": "PyTorch"
+  },
+  "model_architecture": {
+    "type": "TCN (Temporal Convolutional Network)",
+    "input_dim": 80,
+    "output_dim": 59,
+    "hidden_channels": 192,
+    "num_layers": 8,
+    "receptive_field_frames": 383,
+    "receptive_field_ms": 3830,
+    "parameters": 345467,
+    "model_size_mb": 4.055196762084961
+  },
+  "audio_processing": {
+    "sample_rate": 16000,
+    "n_mels": 80,
+    "hop_length": 160,
+    "win_length": 400,
+    "n_fft": 512,
+    "mel_frame_rate": 100.0,
+    "context_frames": 24,
+    "context_duration_ms": 240
+  },
+  "output_format": {
+    "total_features": 59,
+    "blendshapes": {
+      "count": 52,
+      "indices": "0-51",
+      "description": "MediaPipe facial blendshapes (0-1 range)"
+    },
+    "head_pose": {
+      "count": 7,
+      "indices": "52-58",
+      "format": "[x, y, z, qw, qx, qy, qz]",
+      "description": "3D translation + quaternion rotation"
+    }
+  },
+  "performance_metrics": {
+    "training": {
+      "final_loss": 0.7499277591705322,
+      "overall_mae": 0.7104867696762085,
+      "training_time": "~15 epochs, <5 minutes"
+    },
+    "inference": {
+      "avg_inference_time_ms": 2.7371532512160965,
+      "fps_capability": 365.3430802808383,
+      "real_time_capable": true,
+      "target_fps": 30,
+      "latency_requirement": "< 33ms per frame"
+    },
+    "validation_criteria": {
+      "criteria": {
+        "jaw_open_correlation": {
+          "value": 0.05087954178452492,
+          "target": 0.6,
+          "passed": false,
+          "description": "Pearson r \u2265 0.6 on jawOpen"
+        },
+        "mouth_mae": {
+          "value": 0.7104867696762085,
+          "target": 0.1,
+          "passed": false,
+          "description": "MAE \u2264 0.1 (0-1 scale) on mouth channels"
+        },
+        "frame_rate": {
+          "value": 365.3430802808383,
+          "target": 20.0,
+          "passed": true,
+          "description": "Stable 20-30 FPS capability"
+        },
+        "latency": {
+          "value": 2.7371532512160965,
+          "target": 120.0,
+          "passed": true,
+          "description": "End-to-end latency \u2264 120 ms"
+        }
+      },
+      "overall_pass": false,
+      "passed_count": 2,
+      "total_count": 4
+    }
+  },
+  "deployment_options": {
+    "formats": [
+      "PyTorch (.pth) - Native format",
+      "ONNX (.onnx) - Cross-platform (requires separate export)",
+      "TorchScript (.pt) - JIT compiled PyTorch"
+    ],
+    "target_platforms": [
+      "Desktop applications (Windows/Mac/Linux)",
+      "Web applications (via ONNX.js)",
+      "Mobile apps (via PyTorch Mobile/ONNX Runtime)",
+      "Edge devices (Raspberry Pi, etc.)",
+      "Cloud services (any Python environment)"
+    ],
+    "integration_frameworks": [
+      "MediaPipe (for complete face tracking)",
+      "OpenCV (for video processing)",
+      "Unity/Unreal (for game engines)",
+      "Web browsers (via WebGL/WebAssembly)"
+    ]
+  },
+  "usage_instructions": {
+    "input_preparation": [
+      "Record audio at 16kHz sample rate",
+      "Extract mel spectrograms (80 features)",
+      "Create 24-frame context windows (240ms)",
+      "Apply audio normalization using provided scaler"
+    ],
+    "inference": [
+      "Load model: torch.load('best_tcn_model.pth')",
+      "Prepare input: (batch, 24, 80) tensor",
+      "Run inference: model(input)",
+      "Extract output: 59 features per frame",
+      "Apply target denormalization",
+      "Use EMA smoothing for stability"
+    ],
+    "real_time_processing": [
+      "Use ring buffer for continuous audio",
+      "Process every 10-33ms for target FPS",
+      "Apply temporal smoothing",
+      "Handle voice activity detection"
+    ]
+  },
+  "dataset_info": {
+    "training_data": "15-minute video (33 seconds processed)",
+    "sequences": 268,
+    "sequence_length": "240ms (24 frames)",
+    "features_per_frame": "80 mel + 59 targets",
+    "face_detection_rate": "96.9%"
+  },
+  "files_included": [
+    "best_tcn_model.pth",
+    "audio_scaler.pkl",
+    "target_scaler.pkl",
+    "dataset_metadata.json"
+  ],
+  "requirements": [
+    "Python 3.8+",
+    "PyTorch 2.0+",
+    "librosa (audio processing)",
+    "scikit-learn (normalization)",
+    "numpy, scipy (numerical computing)"
+  ],
+  "limitations_and_improvements": {
+    "current_limitations": [
+      "Limited training data (33 seconds)",
+      "Lower accuracy than target (MAE 0.71 vs 0.1)",
+      "Correlations below target on key features",
+      "Single speaker training data"
+    ],
+    "suggested_improvements": [
+      "Train on full 15-minute video or more data",
+      "Add emotion-specific training data",
+      "Fine-tune blendshape index mapping",
+      "Implement multi-speaker training",
+      "Add data augmentation techniques",
+      "Experiment with larger model architectures"
+    ]
+  }
+}

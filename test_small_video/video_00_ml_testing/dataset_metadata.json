@@ -1,0 +1,27 @@
+{
+  "dataset_info": {
+    "num_sequences": 46,
+    "sequence_length_frames": 24,
+    "sequence_length_ms": 240,
+    "step_size_frames": 12,
+    "overlap_ms": 120,
+    "audio_feature_dim": 80,
+    "target_feature_dim": 59
+  },
+  "normalization_stats": {
+    "method": "clipping_to_natural_ranges",
+    "audio_range": [
+      -80.0,
+      0.0
+    ],
+    "audio_mean": -54.186239639831626,
+    "audio_std": 16.547346738868026,
+    "target_range": [
+      -0.2,
+      0.9973898296596977
+    ],
+    "target_mean": 0.0542481617590183,
+    "target_std": 0.167260440968057
+  },
+  "normalization_method": "proper_scaling_preserves_natural_ranges"
+}

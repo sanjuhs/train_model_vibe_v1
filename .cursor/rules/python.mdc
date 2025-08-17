@@ -1,0 +1,8 @@
+---
+description: Virtual Env when running python
+globs:
+alwaysApply: true
+---
+
+- Always use a virtual env when running python script
+- Almost always the python .venv folder will be there at root, activate that and then run any python script as needed

@@ -1,0 +1,206 @@
+import ctypes, os
+
+pyd = r"C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi\onnxruntime_pybind11_state.pyd" 
+try:
+    ctypes.WinDLL(pyd)
+    print("✅ Loaded successfully")
+except OSError as e:
+    err = ctypes.GetLastError()
+    print(f"❌ Load failed: {e!r} (Windows error {err})")
+
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> python .\rough\onnxpydtest.py
+❌ Load failed: OSError(22, 'A dynamic link library (DLL) initialization routine failed', None, 1114, None) (Windows error 1114)
+
+(base) PS C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi> ls
+
+
+    Directory: C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        07-08-2025     12:30                __pycache__
+-a----        07-08-2025     12:30             54 build_and_package_info.py
+-a----        07-08-2025     12:30           1581 convert_npz_to_onnx_adapter.py
+-a----        07-08-2025     12:30       14854696 onnxruntime.dll
+-a----        07-08-2025     12:30           2109 onnxruntime_collect_build_info.py
+-a----        07-08-2025     12:30          48294 onnxruntime_inference_collection.py
+-a----        07-08-2025     12:30          22088 onnxruntime_providers_shared.dll
+-a----        07-08-2025     12:30       18089504 onnxruntime_pybind11_state.pyd
+-a----        07-08-2025     12:30           6737 onnxruntime_validation.py
+-a----        07-08-2025     12:30             34 version_info.py
+-a----        07-08-2025     12:30            413 _ld_preload.py
+-a----        07-08-2025     12:30           1533 _pybind_state.py
+-a----        07-08-2025     12:30            251 __init__.py
+
+
+(base) PS C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi> dumpbin /DEPENDENTS onnxruntime_pybind11_state.pyd
+dumpbin : The term 'dumpbin' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ dumpbin /DEPENDENTS onnxruntime_pybind11_state.pyd
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (dumpbin:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(base) PS C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi> 
+
+help me resolve this dumpbin thing
+
+also i can conmfirm i have vcredistributable
+
+(base) PS C:\Users\USER> where C:\Windows\System32\vcruntime140.dll
+(base) PS C:\Users\USER> where C:\Windows\System32\msvcp140.dll
+(base) PS C:\Users\USER> Get-ChildItem C:\Windows\System32\vcruntime*.dll
+
+
+    Directory: C:\Windows\System32
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        11-06-2025     05:21         124544 vcruntime140.dll
+-a----        27-10-2023     00:28         164800 vcruntime140d.dll
+-a----        11-06-2025     05:21          49792 vcruntime140_1.dll
+-a----        27-10-2023     00:28          54304 vcruntime140_1d.dll
+-a----        01-04-2024     12:52          37800 vcruntime140_1_clr0400.dll
+-a----        01-04-2024     12:52          98728 vcruntime140_clr0400.dll
+-a----        11-06-2025     05:21          38528 vcruntime140_threads.dll
+
+---
+
+**********************************************************************
+** Visual Studio 2019 Developer Command Prompt v16.11.34
+** Copyright (c) 2021 Microsoft Corporation
+**********************************************************************
+
+C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools>cd C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi
+
+C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi>dumpbin /DEPENDENTS onnxruntime_pybind11_state.pyd
+Microsoft (R) COFF/PE Dumper Version 14.29.30154.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file onnxruntime_pybind11_state.pyd
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    python311.dll
+    KERNEL32.dll
+    ADVAPI32.dll
+    MSVCP140.dll
+    MSVCP140_1.dll
+    SETUPAPI.dll
+    dxgi.dll
+    api-ms-win-core-path-l1-1-0.dll
+    dbghelp.dll
+    VCRUNTIME140_1.dll
+    VCRUNTIME140.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-string-l1-1-0.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-filesystem-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-time-l1-1-0.dll
+    api-ms-win-crt-convert-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+
+  Summary
+
+       6C000 .data
+       7E000 .pdata
+      352000 .rdata
+       10000 .reloc
+        1000 .rsrc
+      CFA000 .text
+        1000 _RDATA
+
+C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi>
+
+---
+
+C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi>dumpbin /DEPENDENTS onnxruntime.dll
+Microsoft (R) COFF/PE Dumper Version 14.29.30154.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file onnxruntime.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    MSVCP140.dll
+    VCRUNTIME140.dll
+    VCRUNTIME140_1.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-convert-l1-1-0.dll
+    api-ms-win-crt-string-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-filesystem-l1-1-0.dll
+    ADVAPI32.dll
+    MSVCP140_1.dll
+    api-ms-win-crt-time-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+    SETUPAPI.dll
+    dxgi.dll
+    api-ms-win-core-path-l1-1-0.dll
+    dbghelp.dll
+
+  Summary
+
+       68000 .data
+       4F000 .pdata
+      280000 .rdata
+        F000 .reloc
+        1000 .rsrc
+      AE9000 .text
+        1000 _RDATA
+
+C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi>
+
+---
+
+I want to diagnose myself exactly what is causing the error and what is causing this dll error, with no guess work or hunches i want to read the logs and identify what is cuasing it please help me, dont jump to conclusions half way through, just tell me what i need to investigate , I can confiorm cuda and cudart and gpu stuff is not there
+
+btw i have tried more indepth logs as well:
+
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> $Env:ORT_LOGGING_LEVEL = "VERBOSE"
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> python rough/onnxtesting.py
+Traceback (most recent call last):
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\rough\onnxtesting.py", line 4, in <module>
+    import onnxruntime as ort
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\__init__.py", line 61, in <module>
+    raise import_capi_exception
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\__init__.py", line 24, in <module>
+    from onnxruntime.capi._pybind_state import (
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi\_pybind_state.py", line 32, in <module>
+    from .onnxruntime_pybind11_state import *  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: DLL load failed while importing onnxruntime_pybind11_state: A dynamic link library (DLL) initialization routine failed.                                    $Env:ORT_DISABLE_DML = "1"
+>> env) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM>
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> 
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> $Env:ORT_DISABLE_DML = "1"
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> $Env:ORT_DISABLE_CUDA = "1"
+>> $Env:ORT_DISABLE_CUDA = "1"
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> $Env:ORT_DISABLE_CUDA = "1"
+(.venv) (base) PS C:\Users\USER\Desktop\coding\python\train_LSTM> python rough/onnxtesting.py
+Traceback (most recent call last):
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\rough\onnxtesting.py", line 4, in <module>
+    import onnxruntime as ort
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\__init__.py", line 61, in <module>
+    raise import_capi_exception
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\__init__.py", line 24, in <module>
+    from onnxruntime.capi._pybind_state import (
+  File "C:\Users\USER\Desktop\coding\python\train_LSTM\.venv\Lib\site-packages\onnxruntime\capi\_pybind_state.py", line 32, in <module>
+    from .onnxruntime_pybind11_state import *  # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: DLL load failed while importing onnxruntime_pybind11_state: A dynamic link library (DLL) initialization routine failed.
+
+I want you to think from first principles and only help diagnose what is causing the DLL error. I am interested in figuring out what exactly is causing. I don't want to jump to any conclusions. I want to figure out exactly what's going on. I have given you all of this information so that you can now tell me what is the next step to investigate this issue and to solve this issue step by step, assuming we don't know anything.

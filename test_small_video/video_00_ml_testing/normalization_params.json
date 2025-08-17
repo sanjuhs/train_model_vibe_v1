@@ -1,0 +1,10 @@
+{
+  "audio_method": "clipping",
+  "audio_min": -80.0,
+  "audio_max": 10.0,
+  "target_method": "clipping",
+  "blendshape_min": 0.0,
+  "blendshape_max": 1.0,
+  "pose_min": -1.0,
+  "pose_max": 1.0
+}
