@@ -14,7 +14,10 @@ The model is already trained, but if you want to retrain or continue training:
 # .venv\Scripts\activate.bat  # Windows Command Prompt
 # source .venv/bin/activate  # Linux/Mac
 
-# Train with incremental approach (recommended)
+# Quick mouth-focused training (latest approach - recommended for better mouth movements)
+python quick_fix_training.py
+
+# Train with incremental approach (standard approach)
 python train_incremental.py --skip-sanity
 
 # Alternative: Train with specific configuration
@@ -26,6 +29,30 @@ python train_incremental.py --data-dir multi_video_features/combined_dataset --b
 - `--skip-sanity`: Skip the sanity check (use if you've already verified your data)
 - `--data-dir`: Specify the dataset directory (default: `multi_video_features/combined_dataset`)
 - `--batch-size`: Set batch size (default: 32)
+
+#### 🔥 Quick Mouth-Focused Training (Latest - Recommended)
+
+The `quick_fix_training.py` script represents our latest training approach that significantly improves mouth movement quality:
+
+**Features:**
+- **Mouth-Focused Loss**: 5x weight on mouth region, 10x weight on jaw movements
+- **Improved Normalization**: Better target normalization preserving natural blendshape ranges
+- **Fine-tuning Approach**: Uses lower learning rate (5e-4) for refined training
+- **GPU Optimized**: Requires CUDA for optimal performance
+
+**What it fixes:**
+- ✅ Poor mouth movement synchronization with audio
+- ✅ Insufficient jaw opening during speech
+- ✅ Over-compressed blendshape values
+- ✅ Lack of dynamic range in facial movements
+
+**Output Models:**
+- `mouth_focused_final.pth`: Final model with enhanced mouth movements
+- `mouth_focused_epoch_X.pth`: Intermediate checkpoints every 10 epochs
+
+This script loads existing model weights (if available) and fine-tunes them with mouth-specific improvements, making it the preferred method for creating production-ready models.
+
+#### Standard Incremental Training
 
 The training script uses an incremental approach:
 
@@ -118,7 +145,8 @@ train_LSTM/
 │   └── ...
 ├── multi_video_features/       # Training datasets
 │   └── combined_dataset/       # Main training data
-└── train_incremental.py       # Incremental training script (recommended)
+├── quick_fix_training.py      # Latest mouth-focused training (recommended)
+└── train_incremental.py       # Incremental training script
 ```
 
 ## 🎯 Model Architecture
@@ -185,7 +213,10 @@ pip install -r requirements.txt
 # Use virtual environment
 .venv\Scripts\Activate.ps1  # PowerShell
 
-# Train with incremental approach (skips sanity check)
+# Latest mouth-focused training (recommended)
+python quick_fix_training.py
+
+# Train with incremental approach (standard)
 python train_incremental.py --skip-sanity
 ```
 
@@ -203,6 +234,10 @@ python convert_to_onnx.py --input ../models/best_base_model.pth
 
 ```bash
 cd inference
+# Use latest mouth-focused model (recommended)
+python pytorch_inference_demo.py --model ../models/mouth_focused_final.pth
+
+# Or use previous models
 python pytorch_inference_demo.py --model ../models/best_full_model.pth
 ```
 
@@ -210,6 +245,11 @@ python pytorch_inference_demo.py --model ../models/best_full_model.pth
 
 ```bash
 cd deployment
+# Convert and test latest model
+python convert_to_onnx.py --input ../models/mouth_focused_final.pth
+python onnx_inference_demo.py --model mouth_focused_final.onnx
+
+# Or use previous models
 python onnx_inference_demo.py --model best_full_model.onnx
 ```
 
@@ -238,9 +278,10 @@ See the generated `javascript_example.js` in your output directory for complete 
 
 ### Available Models
 
-1. **best_full_model.pth**: Complete training with all loss components
-2. **best_base_model.pth**: Basic model focusing on core mapping
-3. **best_incremental_model.pth**: Best model from incremental training
+1. **mouth_focused_final.pth**: Latest mouth-focused model with enhanced facial movements (recommended)
+2. **best_full_model.pth**: Complete training with all loss components
+3. **best_base_model.pth**: Basic model focusing on core mapping
+4. **best_incremental_model.pth**: Best model from incremental training
 
 ### Performance Metrics
 
@@ -273,10 +314,11 @@ EPOCHS = 60 (incremental: 15+10+10+25)
 ## 🚨 Important Notes
 
 1. **Virtual Environment**: Always use the `.venv` virtual environment when running Python scripts
-2. **Sanity Check**: The `--skip-sanity` flag skips data validation (use only if data is verified)
-3. **Model Paths**: Ensure correct relative paths when running scripts from different directories
-4. **Audio Format**: Input audio must be 16kHz for proper inference
-5. **ONNX Compatibility**: Models are exported with ONNX opset 11 for maximum compatibility
+2. **Quick Fix Training**: The `quick_fix_training.py` requires CUDA/GPU for optimal performance
+3. **Sanity Check**: The `--skip-sanity` flag skips data validation (use only if data is verified)
+4. **Model Paths**: Ensure correct relative paths when running scripts from different directories
+5. **Audio Format**: Input audio must be 16kHz for proper inference
+6. **ONNX Compatibility**: Models are exported with ONNX opset 11 for maximum compatibility
 
 ## 🐛 Troubleshooting
 
