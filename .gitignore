@@ -17,7 +17,8 @@ extracted_features/
 
 
 models/*
-models/
+# models/
+!models/tcn_model.py
 
 
 
